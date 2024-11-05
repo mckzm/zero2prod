@@ -4,10 +4,13 @@
 // 3) the health check returns a `200 OK` HTTP status code
 // 4) the health check's response has no body
 
+use std::net::TcpListener;
+use zero2prod::startup::run;
+
 fn spawn_app() -> String {
-    let listener = std::net::TcpListener::bind("127.0.0.1:0").expect("Failed to bind to socket");
+    let listener = TcpListener::bind("127.0.0.1:0").expect("Failed to bind to socket");
     let port = listener.local_addr().unwrap().port();
-    let server = zero2prod::run(listener).expect("Failed to bind to given socket");
+    let server = run(listener).expect("Failed to bind to given socket");
     let _ = tokio::spawn(server);
     format!("http://127.0.0.1:{}", port)
 }
