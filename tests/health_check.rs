@@ -26,6 +26,6 @@ async fn test_health_check_works() {
         .await
         .expect("Failed to send request");
 
-    assert!(response.status().is_success());
+    assert_eq!(response.status().as_u16(), 200);
     assert_eq!(response.content_length(), Some(0));
 }
