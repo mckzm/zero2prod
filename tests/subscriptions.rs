@@ -23,3 +23,31 @@ async fn test_subscriptions_returns_200_for_a_valid_request() {
 
     assert_eq!(response.status().as_u16(), 200);
 }
+
+#[tokio::test]
+async fn test_subscriptions_returns_400_for_invalid_requests() {
+    let socket_spec = common::spawn_app();
+    let client = reqwest::Client::new();
+    let test_cases = vec![
+        ("name=Zephyra%20Kaze", "Email address is missing"),
+        ("email=zephyra_kaze%40.example.com", "Name is missing"),
+        ("", "Name and email address are both missing"),
+    ];
+
+    for (invalid_body, error_msg) in test_cases {
+        let response = client
+            .post(&format!("{}/subscriptions", socket_spec))
+            .header("Content-Type", "application/x-www-form-urlencoded")
+            .body(invalid_body)
+            .send()
+            .await
+            .expect("Failed to execute POST request");
+
+        assert_eq!(
+            response.status().as_u16(),
+            400,
+            "The handler did not return 400 when the payload had the following flaw: {}",
+            error_msg
+        );
+    }
+}
