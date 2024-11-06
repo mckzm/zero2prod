@@ -17,14 +17,13 @@ CONTAINER_NAME="postgres"
 # Per the latter, note that Docker manages its own iptables rules.
 # Note as well that hosts within the same L2 segment can reach ports published
 # to localhost, per issue #45610: <https://github.com/moby/moby/issues/45610>
-LISTEN_ADDR="127.0.0.1"
+HOST_ADDR="127.0.0.1"
 HOST_PORT="5432"
-CONTAINER_PORT="5432"
 
 docker run \
-  --env POSTGRES_USER=${SUPERUSER} \
-  --env POSTGRES_PASSWORD=${SUPERUSER_PWD} \
-  --publish  ${LISTEN_ADDR}:"${HOST_PORT}":${CONTAINER_PORT} \
+  --env POSTGRES_USER="${SUPERUSER}" \
+  --env POSTGRES_PASSWORD="${SUPERUSER_PWD}" \
+  --publish  ${HOST_ADDR}:"${HOST_PORT}":"${DB_PORT}" \
   --detach \
   --name "${CONTAINER_NAME}" \
 postgres -N 1000
