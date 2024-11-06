@@ -13,9 +13,9 @@ fi
 # Check if a custom parameter has been set, otherwise use default values
 DB_PORT="${POSTGRES_PORT:=5432}"
 SUPERUSER="${SUPERUSER:=postgres}"
-SUPERUSER_PWD="${SUPERUSER_PWD:=password}"
-APP_USER="${APP_USER:=app}"
-APP_USER_PWD="${APP_USER_PWD:=secret}"
+SUPERUSER_PWD="${SUPERUSER_PWD:=opensesame}"
+APP_USER="${APP_USER:=zero2prod}"
+APP_USER_PWD="${APP_USER_PWD:=shazam}"
 APP_DB_NAME="${APP_DB_NAME:=newsletter}"
 
 
